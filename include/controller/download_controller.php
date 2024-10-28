@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Download Controller
  *
@@ -7,8 +6,7 @@
  * @link https://www.emlog.net
  */
 
-class Download_Controller
-{
+class Download_Controller {
     /**
      * @var User_Model
      */
@@ -20,8 +18,7 @@ class Download_Controller
 
     public $Cache;
 
-    function index()
-    {
+    function index() {
         loginAuth::checkLogin();
 
         $this->Media_Model = new Media_Model();
@@ -43,8 +40,7 @@ class Download_Controller
         $this->download($r['filepath'], $r['filename'], BLOG_URL, getUA());
     }
 
-    private function download($file_path, $file_name, $referer = '', $user_agent = '')
-    {
+    private function download($file_path, $file_name, $referer = '', $user_agent = '') {
         if (filter_var($file_path, FILTER_VALIDATE_URL)) {
             $file_url = $file_path;
             emDirect($file_url);
@@ -65,15 +61,13 @@ class Download_Controller
             show_404_page();
         }
 
-        $mime_type = $this->getMimeTypeByExtension($file_name);
-
         // 防止输出缓存影响下载
         if (ob_get_length()) {
             ob_end_clean();
         }
 
         header('Content-Description: File Transfer');
-        header('Content-Type: ' . $mime_type);
+        header('Content-Type: application/zip');
         header('Content-Disposition: attachment; filename="' . $file_name . '"');
         header('Content-Transfer-Encoding: binary');
         header('Expires: 0');
@@ -85,31 +79,7 @@ class Download_Controller
         exit;
     }
 
-    private function getMimeTypeByExtension($file_name)
-    {
-        $extension = getFileSuffix($file_name);
-        switch ($extension) {
-            case 'zip':
-                return 'application/zip';
-            case 'rar':
-                return 'application/x-rar-compressed';
-            case '7z':
-                return 'application/x-7z-compressed';
-            case 'gz':
-                return 'application/x-gzip';
-            default:
-                return 'application/octet-stream';
-        }
-    }
-
-    private function isValidResource($resource)
-    {
-        $mime_type = $this->getMimeTypeByExtension($resource['filename']);
-        return $resource && !empty($resource['filepath']) && in_array($mime_type, [
-            'application/zip',
-            'application/x-rar-compressed',
-            'application/x-7z-compressed',
-            'application/x-gzip'
-        ]);
+    private function isValidResource($resource) {
+        return $resource && !empty($resource['filepath']) && $resource['mimetype'] === 'application/zip';
     }
 }

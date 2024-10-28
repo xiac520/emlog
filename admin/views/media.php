@@ -58,16 +58,16 @@
                 $media_icon = getFileUrl($value['filepath_thum']);
                 $img_viewer = 'class="highslide" onclick="return hs.expand(this)"';
             } elseif (isZip($value['filename'])) {
-                $media_icon = "./views/images/zip.webp";
+                $media_icon = "./views/images/zip.jpg";
                 $img_viewer = '';
             } elseif (isVideo($value['filename'])) {
-                $media_icon = "./views/images/video.webp";
+                $media_icon = "./views/images/video.png";
                 $img_viewer = '';
             } elseif (isAudio($value['filename'])) {
-                $media_icon = "./views/images/audio.webp";
+                $media_icon = "./views/images/audio.png";
                 $img_viewer = '';
             } else {
-                $media_icon = "./views/images/fnone.webp";
+                $media_icon = "./views/images/fnone.png";
                 $img_viewer = '';
             }
         ?>
@@ -90,7 +90,7 @@
                             <?php endif ?><br>
                             源文件：<a href="#" class="copy-link text-muted" data-toggle="popover" data-url="<?= $media_url ?>"><?= $media_url ?></a><br>
                             <a href="#" class="copy-link" data-toggle="popover" data-url="<?= $media_url ?>">原文件地址</a>
-                            <?php if ($value['alias'] && isZip($value['filename'])):
+                            <?php if ($value['alias'] && $value['mimetype'] === 'application/zip'):
                                 $media_down_url = BLOG_URL . '?resource_alias=' . $value['alias'];
                             ?>
                                 ｜ <a href="#" class="copy-link" data-toggle="popover" data-url="<?= $media_down_url ?>">用户下载地址</a> （下载<?= $value['download_count'] ?>）

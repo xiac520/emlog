@@ -1,19 +1,16 @@
 <?php
-
 /**
  * plugin model
  * @package EMLOG
  * @link https://www.emlog.net
  */
 
-class Plugin_Model
-{
+class Plugin_Model {
 
     /**
      * start plug-in
      */
-    public function activePlugin($plugin)
-    {
+    public function activePlugin($plugin) {
         $active_plugins = Option::get('active_plugins');
 
         $ret = false;
@@ -43,8 +40,7 @@ class Plugin_Model
     /**
      * stop plug-in
      */
-    public function inactivePlugin($plugin)
-    {
+    public function inactivePlugin($plugin) {
         $active_plugins = Option::get('active_plugins');
         if (in_array($plugin, $active_plugins)) {
             $key = array_search($plugin, $active_plugins);
@@ -56,8 +52,7 @@ class Plugin_Model
         Option::updateOption('active_plugins', $active_plugins);
     }
 
-    public function rmCallback($plugin)
-    {
+    public function rmCallback($plugin) {
         $r = explode('/', $plugin, 2);
         $plugin = $r[0];
         $callback_file = "../content/plugins/$plugin/{$plugin}_callback.php";
@@ -70,8 +65,7 @@ class Plugin_Model
     }
 
     // upgrade callback
-    public function upCallback($plugin_alias)
-    {
+    public function upCallback($plugin_alias) {
         $callback_file = "../content/plugins/$plugin_alias/{$plugin_alias}_callback.php";
         if (file_exists($callback_file)) {
             require_once $callback_file;
@@ -81,8 +75,7 @@ class Plugin_Model
         }
     }
 
-    function getPlugins($filter = '')
-    {
+    function getPlugins($filter = '') {
         global $emPlugins;
         if (isset($emPlugins)) {
             return $emPlugins;
@@ -155,8 +148,7 @@ class Plugin_Model
     }
 
 
-    function getPluginData($pluginFile)
-    {
+    function getPluginData($pluginFile) {
         $pluginPath = EMLOG_ROOT . '/content/plugins/';
         $content = file($pluginPath . $pluginFile);
         if (!$content) {

@@ -248,7 +248,6 @@ class Api_Controller
                 'tags'        => $this->getTags((int)$value['gid']),
                 'need_pwd'    => $value['password'] ? 'y' : 'n',
                 'fields'      => $value['fields'],
-                'parent_id'   => (int)$value['parent_id'],
             ];
         }
 
@@ -295,7 +294,6 @@ class Api_Controller
             'sortop'        => $r['sortop'],
             'tags'          => $this->getTags($id),
             'fields'        => $r['fields'],
-            'parent_id'     => (int)$r['parent_id'],
         ];
 
         output::ok(['article' => $article,]);
@@ -468,25 +466,6 @@ class Api_Controller
 
         $comments = $this->Comment_Model->getCommentListForApi($id, 'n');
         output::ok(['comments' => $comments]);
-    }
-
-    private function unlike()
-    {
-        $blogId = Input::postIntVar('id', -1);
-
-        $this->checkAuthCookie();
-
-        if (empty($blogId)) {
-            Output::error('parameter error');
-        }
-
-        $r = $this->Like_Model->unLike($this->curUid, $blogId);
-
-        if ($r === false) {
-            Output::error('unlike failed');
-        }
-
-        output::ok();
     }
 
     private function like_list()

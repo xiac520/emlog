@@ -67,19 +67,19 @@ if ($action === 'lib') {
         $data['media_name'] = subString($v['filename'], 0, 20);
         $data['attsize'] = $v['attsize'];
         $data['media_type'] = '';
-        $data['media_icon'] = "./views/images/fnone.webp";
+        $data['media_icon'] = "./views/images/fnone.png";
         if (isImage($v['mimetype'])) {
             $data['media_icon'] = getFileUrl($v['filepath_thum']);
             $data['media_type'] = 'image';
         } elseif (isZip($v['filename'])) {
-            $data['media_icon'] = "./views/images/zip.webp";
+            $data['media_icon'] = "./views/images/zip.jpg";
             $data['media_type'] = 'zip';
         } elseif (isVideo($v['filename'])) {
             $data['media_type'] = 'video';
-            $data['media_icon'] = "./views/images/video.webp";
+            $data['media_icon'] = "./views/images/video.png";
         } elseif (isAudio($v['filename'])) {
             $data['media_type'] = 'audio';
-            $data['media_icon'] = "./views/images/audio.webp";
+            $data['media_icon'] = "./views/images/audio.png";
         }
         $ret['images'][] = $data;
     }

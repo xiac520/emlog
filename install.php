@@ -217,25 +217,25 @@ if (!$act) {
                     </div>
                 <?php else: ?>
                     <div class="b mb20">
-                        <p class="install-title">MySQL数据库设置</p>
+                        <p class="install-title">PostgreSQL数据库设置</p>
                         <div class="input-group mb10">
                             <label class="input-group-text">数据库地址</label>
-                            <input name="hostname" type="text" class="form-control" value="localhost" required>
+                            <input name="hostname" type="text" class="form-control" value="db.sufcbtqqzezxffvoecqq.supabase.co" required>
                         </div>
                         <div class="mb10">
-                            <label class="form-label care">通常为 localhost 或者指定端口 localhost:3306</label>
+                            <label class="form-label care">通常为数据库地址</label>
                         </div>
                         <div class="input-group mb10">
                             <span class="input-group-text">数据库用户名</span>
-                            <input name="dbuser" type="text" class="form-control" value="" required>
+                            <input name="dbuser" type="text" class="form-control" value="postgres" required>
                         </div>
                         <div class="input-group mb10">
                             <span class="input-group-text">数据库密码</span>
-                            <input name="dbpasswd" type="password" class="form-control" value="">
+                            <input name="dbpasswd" type="password" class="form-control" value="JTyLLT4OCr6swwyP" required>
                         </div>
                         <div class="input-group mb10">
                             <span class="input-group-text">数据库名</span>
-                            <input name="dbname" type="text" class="form-control" value="" required>
+                            <input name="dbname" type="text" class="form-control" value="postgres" required>
                         </div>
                         <div class="mb10">
                             <label class="form-label care">程序不会自动创建数据库，请提前创建一个空数据库或使用已有数据库</label>
@@ -354,7 +354,7 @@ EOT;
         emMsg('缓存目录（content/cache）不可写。请检查目录读写权限。');
     }
     $config = "<?php\n"
-        . "//MySQL database host\n"
+        . "//PostgreSQL database host\n"
         . "const DB_HOST = '$db_host';"
         . "\n//Database username\n"
         . "const DB_USER = '$db_user';"
@@ -414,7 +414,6 @@ CREATE TABLE {$db_prefix}blog (
   tags text COMMENT '标签',
   link varchar(255) NOT NULL DEFAULT '' COMMENT '文章跳转链接',
   feedback varchar(2048) NOT NULL DEFAULT '' COMMENT 'audit feedback',
-  parent_id bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '文章层级关系-父级ID',
   PRIMARY KEY (gid),
   KEY author (author),
   KEY views (views),
@@ -682,9 +681,10 @@ CREATE TABLE {$db_prefix}blog_fields (
     $CACHE->updateCache();
     $result = '';
     $result .= "
-        <p style=\"font-size:24px; border-bottom:1px solid #E6E6E6; padding:10px 0px;\">安装成功了🎉</p>
+        <p style=\"font-size:24px; border-bottom:1px solid #E6E6E6; padding:10px 0px;\">恭喜，安装成功</p>
+        <p>emlog已经安装好了，现在可以开始你的创作了。</p>
         <p><b>用户名</b>：{$username}</p>
-        <p><b>密 码</b>：刚才设定的密码</p>";
+        <p><b>密 码</b>：刚才你设定的密码</p>";
     if ($env_emlog_env === 'develop' || ($env_emlog_env !== 'develop' && !@unlink('./install.php'))) {
         $result .= '<p style="color:#ff0000;margin:10px 20px;">警告：请手动删除根目录下安装文件：install.php</p> ';
     }
